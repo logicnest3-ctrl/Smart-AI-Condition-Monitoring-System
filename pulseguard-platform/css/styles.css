@@ -1,0 +1,261 @@
+/* Clean Industrial Enterprise UI - Managed by Team Penguin */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --primary: #1d4ed8;       /* Enterprise Blue */
+  --primary-hover: #1e40af;
+  --bg-main: #f8fafc;       /* Clean Slate-50 */
+  --card-bg: #ffffff;       /* Pure White Card */
+  --border-color: #e2e8f0;  /* Crisp Slate-200 Border */
+  --text-main: #0f172a;     /* Deep Slate-900 */
+  --text-muted: #64748b;    /* Slate-500 */
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Standard Clean Cards */
+.enterprise-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.enterprise-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Metric Cards with State Indicators */
+.metric-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left-width: 4px;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.metric-card.state-normal { border-left-color: #10b981; }
+.metric-card.state-warning { border-left-color: #f59e0b; }
+.metric-card.state-fault { border-left-color: #ef4444; }
+.metric-card.state-offline { border-left-color: #f97316; }
+
+/* Clean Standard Buttons */
+.btn-primary {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  border: 1px solid #1d4ed8;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.btn-primary:hover {
+  background-color: #1e40af;
+  border-color: #1e3a8a;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #f8fafc;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+/* Status Dot */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.green { background-color: #10b981; }
+.status-dot.amber { background-color: #f59e0b; }
+.status-dot.red { background-color: #ef4444; }
+.status-dot.orange { background-color: #f97316; }
+
+/* Dropdown Menu */
+.dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+.dropdown-parent:hover .dropdown-menu,
+.dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Mobile Drawer */
+.mobile-drawer {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease, opacity 0.2s ease;
+}
+
+.mobile-drawer.open {
+  max-height: 400px;
+  opacity: 1;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  transform: scale(0.97);
+  transition: transform 0.2s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1);
+}
+
+/* Form Inputs Focus */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 1px #2563eb !important;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* 3D Pop-Up Modal Styles */
+.modal-3d-backdrop {
+  background-color: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(6px);
+  perspective: 1200px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.modal-3d-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-3d-content {
+  transform-style: preserve-3d;
+  transform: rotateX(10deg) translateY(24px) scale(0.95);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+.modal-3d-backdrop.active .modal-3d-content {
+  transform: rotateX(0deg) translateY(0) scale(1);
+}
+
+.motor-3d-viewport {
+  background: radial-gradient(circle at 50% 40%, #1e293b 0%, #0f172a 100%);
+  border-radius: 10px;
+  border: 1px solid #334155;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Industrial Alert Buzzer Animation */
+@keyframes buzzerPulsing {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+}
+
+.buzzer-active-banner {
+  animation: buzzerPulsing 1s infinite;
+}
+
+/* Right-Side 3D Section & Card Layering Styles */
+.section-3d-wrapper {
+  perspective: 1200px;
+}
+
+.card-3d-depth {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.04);
+  transform: translateZ(0);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-3d-depth:hover {
+  transform: translateY(-2px) translateZ(8px);
+  box-shadow: 0 16px 32px -4px rgba(15, 23, 42, 0.12), 0 6px 12px -3px rgba(15, 23, 42, 0.06);
+}
+
+.right-side-3d-console {
+  background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+  border: 1px solid #334155;
+  border-radius: 16px;
+  box-shadow: 0 20px 35px -5px rgba(15, 23, 42, 0.25);
+  color: #f8fafc;
+}
+
+/* Dropdown Dashboard Accordion Styles (Requirement 4) */
+.inspect-dropdown-panel {
+  display: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.inspect-dropdown-panel.open {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+

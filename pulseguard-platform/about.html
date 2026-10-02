@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engineering Features &amp; Architecture | IIOT - Managed by Team Penguin</title>
+  <meta name="description" content="Practical Engineering Features and Technical Architecture of the IIoT Motor Predictive Maintenance System. DS18B20, MPU6050, ACS712, ESP32, and ISO 10816 standards.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Global Enterprise Header -->
+<header class="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      
+      <!-- Brand Logo (Top-Left) -->
+      <a href="index.html" class="flex items-center gap-3 focus:outline-none">
+        <div class="w-9 h-9 rounded-lg bg-blue-700 flex items-center justify-center text-white font-bold text-base shadow-sm">
+          <span>⚙</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-bold tracking-tight text-slate-900">IIOT</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">Team Penguin</span>
+          </div>
+          <span class="text-[11px] text-slate-500 block -mt-0.5">Managed by Team Penguin</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium">
+        <a href="index.html" class="text-slate-600 hover:text-slate-900 transition-colors">Home</a>
+        <a href="about.html" class="text-blue-700 font-semibold transition-colors">Features &amp; Architecture</a>
+
+        <!-- Dedicated Live Dashboard Link (Opens in New Browser Tab) -->
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="text-slate-600 hover:text-slate-900 transition-colors inline-flex items-center gap-1.5 font-semibold text-blue-700">
+          <span class="status-dot green"></span>
+          <span>Live Dashboard</span>
+          <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+
+        <a href="pricing.html" class="text-slate-600 hover:text-slate-900 transition-colors">Pricing (₹ INR)</a>
+        <a href="contact.html" class="text-slate-600 hover:text-slate-900 transition-colors">Contact</a>
+      </nav>
+
+      <!-- Primary CTA Button (Opens in New Browser Tab) -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="btn-primary px-4 py-2 text-xs sm:text-sm inline-flex items-center gap-2">
+          <span>Open Dashboard</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobileMenuBtn" class="p-2 rounded-md bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 focus:outline-none">
+          <svg id="menuIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+          <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div id="mobileDrawer" class="mobile-drawer md:hidden border-b border-slate-200 bg-white px-4">
+    <div class="py-4 space-y-2 text-sm font-medium">
+      <a href="index.html" class="block py-2 text-slate-700 hover:text-blue-700">Home</a>
+      <a href="about.html" class="block py-2 text-slate-700 hover:text-blue-700">Features &amp; Architecture</a>
+      <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="block py-2 font-semibold text-blue-700">Live Dashboard (New Tab)</a>
+      <a href="pricing.html" class="block py-2 text-slate-700 hover:text-blue-700">Pricing (₹ INR)</a>
+      <a href="contact.html" class="block py-2 text-slate-700 hover:text-blue-700">Contact</a>
+      <div class="pt-2 border-t border-slate-200">
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="btn-primary w-full py-2.5 rounded-lg text-center font-semibold block text-sm">
+          Open Telemetry Dashboard ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <main class="flex-1 py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    
+    <!-- Top Header -->
+    <div class="text-center max-w-3xl mx-auto">
+      <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">TECHNICAL SPECIFICATIONS</span>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1">Practical Engineering Features</h1>
+      <p class="text-xs sm:text-sm text-slate-500 mt-2">
+        Full architectural breakdown of the modular condition monitoring platform, sensor protocols, ISO 10816 vibration standards, and shift management.
+      </p>
+    </div>
+
+    <!-- PRACTICAL ENGINEERING FEATURES (Requirement 10: Moved from Homepage) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <!-- Feature 1 -->
+      <div class="enterprise-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center mb-4 font-bold text-sm">
+            01
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">Edge Sensor Telemetry</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Continuous sub-second sampling via dual-core ESP32 microcontrollers. Reads digital temperature via Dallas 1-Wire bus (DS18B20), 6-DoF vibration acceleration via I2C (MPU6050), and AC/DC current draw via linear Hall-effect ADC (ACS712).
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-blue-700">
+          Hardware Node BOM: &lt; ₹800 INR
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="enterprise-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center mb-4 font-bold text-sm">
+            02
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">Vibration Analysis (ISO 10816)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Calculates digital Root Mean Square (RMS) velocity and Peak Crest Factor. Automatically evaluates motor mechanical health against ISO 10816 severity bands (Zone A: Good, Zone B: Acceptable, Zone C: Warning, Zone D: Dangerous).
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-emerald-700">
+          Industrial Standard Compliance
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="enterprise-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center mb-4 font-bold text-sm">
+            03
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">Incident Alerts &amp; Thermal Relays</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Automated contactor interlocks and thermal cooling fan triggers when temperatures or current loads exceed set limits. Includes manual override mode for calibrating plant setpoints and testing safety interlocks.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-amber-700">
+          Automated Emergency Interlocks
+        </div>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="enterprise-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-purple-50 border border-purple-200 text-purple-700 flex items-center justify-center mb-4 font-bold text-sm">
+            04
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">Sensor Fault Isolation</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Self-diagnostic impedance and communication heartbeat checks isolate sensor wiring disconnects from actual machine breakdown. Prevents unnecessary and costly motor shutdowns during minor wire faults.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-purple-700">
+          No False Shutdown Trips
+        </div>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="enterprise-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center mb-4 font-bold text-sm">
+            05
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">Shift Scheduling &amp; Electricity (₹ INR)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Plant managers can configure machine shift timings, calculate electrical consumption in real-time in ₹ INR tariffs, and compute cumulative mechanical stress indices to schedule preventive thermal rest windows.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-blue-700">
+          Wear-and-Tear Mitigation
+        </div>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="enterprise-card p-6 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-slate-100 border border-slate-300 text-slate-800 flex items-center justify-center mb-4 font-bold text-sm">
+            06
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2">1-Click PDF Audit Reports</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Instant client-side PDF compilation using jsPDF. Exports a complete multi-device audit report featuring an executive fleet table, shift timings, historical readings, and an explicit abnormal activities log.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-slate-800">
+          ISO Audit &amp; Maintenance Logs
+        </div>
+      </div>
+
+    </div>
+
+    <!-- HARDWARE & FIRMWARE SPECIFICATIONS TABLE -->
+    <div class="enterprise-card p-6 sm:p-8 space-y-4">
+      <h2 class="text-lg font-bold text-slate-900">Hardware &amp; Firmware Technical Specifications</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border border-slate-200">
+          <thead class="bg-slate-100 text-slate-700 font-semibold">
+            <tr>
+              <th class="px-4 py-2.5 border-b">Component / Subsystem</th>
+              <th class="px-4 py-2.5 border-b">Hardware Model</th>
+              <th class="px-4 py-2.5 border-b">Interface &amp; Pinout</th>
+              <th class="px-4 py-2.5 border-b">Specifications / Range</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200">
+            <tr>
+              <td class="px-4 py-2.5 font-semibold text-slate-900">Main Microcontroller</td>
+              <td class="px-4 py-2.5">ESP32 Dual-Core Xtensa</td>
+              <td class="px-4 py-2.5">Wi-Fi 802.11 b/g/n, FreeRTOS</td>
+              <td class="px-4 py-2.5">240 MHz, 520 KB SRAM, Sub-second telemetry</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2.5 font-semibold text-slate-900">Digital Temperature</td>
+              <td class="px-4 py-2.5">Dallas DS18B20 Probe</td>
+              <td class="px-4 py-2.5">1-Wire Bus (GPIO 4, 4.7kΩ Pullup)</td>
+              <td class="px-4 py-2.5">-55°C to +125°C (±0.5°C accuracy)</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2.5 font-semibold text-slate-900">Vibration &amp; Acceleration</td>
+              <td class="px-4 py-2.5">MPU6050 6-DoF IMU</td>
+              <td class="px-4 py-2.5">I2C Fast Mode (SDA: 21, SCL: 22)</td>
+              <td class="px-4 py-2.5">±2g / ±16g range, ISO 10816 RMS velocity</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2.5 font-semibold text-slate-900">Current Sensor</td>
+              <td class="px-4 py-2.5">ACS712 Hall-Effect</td>
+              <td class="px-4 py-2.5">Analog ADC1 (GPIO 34)</td>
+              <td class="px-4 py-2.5">5A / 20A / 30A full scale, isolated Hall transducer</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-2.5 font-semibold text-slate-900">Messaging Protocol</td>
+              <td class="px-4 py-2.5">MQTT v3.1.1</td>
+              <td class="px-4 py-2.5">TCP Port 1883 / WebSockets 9001</td>
+              <td class="px-4 py-2.5">QoS 1, JSON payload framing &lt; 200 bytes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TEAM PENGUIN DEVELOPER ROSTER (Kept at the End Before Footer) -->
+    <div class="space-y-4 pt-6 border-t border-slate-200">
+      <div class="text-center max-w-2xl mx-auto mb-6">
+        <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">PROJECT LEADERSHIP</span>
+        <h2 class="text-2xl font-bold text-slate-900 mt-1">Managed &amp; Developed by Team Penguin</h2>
+        <p class="text-xs text-slate-500 mt-1">Undergraduate Engineering Capstone Project</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="enterprise-card p-6 text-center shadow-sm">
+          <div class="w-14 h-14 rounded-full bg-blue-100 text-blue-800 border-2 border-blue-200 flex items-center justify-center font-bold text-lg mx-auto mb-3">
+            SH
+          </div>
+          <h3 class="text-base font-bold text-slate-900">Syed Siddiq Hussaini</h3>
+          <div class="text-xs font-semibold text-blue-700 bg-blue-50 py-0.5 px-2.5 rounded-full inline-block mt-1 border border-blue-200">
+            Roll No: 160524747018
+          </div>
+          <p class="text-xs text-slate-500 mt-3 font-medium">
+            Core Hardware &amp; ESP32 Architecture • Team Penguin
+          </p>
+        </div>
+
+        <div class="enterprise-card p-6 text-center shadow-sm">
+          <div class="w-14 h-14 rounded-full bg-blue-100 text-blue-800 border-2 border-blue-200 flex items-center justify-center font-bold text-lg mx-auto mb-3">
+            SA
+          </div>
+          <h3 class="text-base font-bold text-slate-900">Syed Rafay Ali</h3>
+          <div class="text-xs font-semibold text-blue-700 bg-blue-50 py-0.5 px-2.5 rounded-full inline-block mt-1 border border-blue-200">
+            Roll No: 160524747055
+          </div>
+          <p class="text-xs text-slate-500 mt-3 font-medium">
+            Vibration Diagnostics &amp; Signal Processing • Team Penguin
+          </p>
+        </div>
+
+        <div class="enterprise-card p-6 text-center shadow-sm">
+          <div class="w-14 h-14 rounded-full bg-blue-100 text-blue-800 border-2 border-blue-200 flex items-center justify-center font-bold text-lg mx-auto mb-3">
+            MR
+          </div>
+          <h3 class="text-base font-bold text-slate-900">Mohammed Abdul Raheem</h3>
+          <div class="text-xs font-semibold text-blue-700 bg-blue-50 py-0.5 px-2.5 rounded-full inline-block mt-1 border border-blue-200">
+            Roll No: 160524747053
+          </div>
+          <p class="text-xs text-slate-500 mt-3 font-medium">
+            Telemetry Dashboard &amp; MQTT Infrastructure • Team Penguin
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Global Enterprise Footer (With Complete Developer Credits at the End) -->
+<footer class="border-t border-slate-200 bg-white py-12 text-slate-600 mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-7 h-7 rounded bg-blue-700 flex items-center justify-center text-white font-bold text-xs">
+            ⚙
+          </div>
+          <span class="text-base font-bold text-slate-900">IIOT</span>
+        </div>
+        <p class="text-xs text-slate-500 leading-relaxed mb-3">
+          Low-Cost Modular Industrial IoT Predictive Maintenance System. Built for multi-motor telemetry, temperature maintenance, wear-and-tear scheduling, and condition monitoring.
+        </p>
+        <span class="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-1 rounded border border-blue-200">
+          Managed by Team Penguin
+        </span>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Navigation</div>
+        <ul class="space-y-2 text-xs">
+          <li><a href="index.html" class="hover:text-blue-700">Home</a></li>
+          <li><a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 font-semibold text-blue-700">Live Dashboard (New Tab) ↗</a></li>
+          <li><a href="about.html" class="hover:text-blue-700">Engineering Features</a></li>
+          <li><a href="pricing.html" class="hover:text-blue-700">Pricing (₹ INR)</a></li>
+          <li><a href="contact.html" class="hover:text-blue-700">Contact Team Penguin</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Sensors &amp; Hardware</div>
+        <ul class="space-y-2 text-xs">
+          <li>DS18B20 Digital Temperature Probe</li>
+          <li>MPU6050 6-DoF Vibration Sensor</li>
+          <li>ACS712 Current Sensor</li>
+          <li>ESP32 Dual-Core FreeRTOS</li>
+          <li>Sensor Node Hardware BOM: &lt; ₹800 INR</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Compliance &amp; Legal</div>
+        <ul class="space-y-2 text-xs">
+          <li><a href="privacy.html" class="hover:text-blue-700">Privacy Policy</a></li>
+          <li><a href="terms.html" class="hover:text-blue-700">Terms of Service</a></li>
+          <li>ISO 10816 Mechanical Standard</li>
+          <li>Electricity Tariff Billing: ₹ INR / kWh</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Official Developer Credits (Strictly at the End of the Page) -->
+    <div class="border-t border-slate-200 pt-6">
+      <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="text-xs font-extrabold uppercase tracking-wider text-slate-900">
+            ALL CREDITS AND DEVELOPED BY TEAM PENGUIN
+          </div>
+          <div class="text-xs text-slate-700 mt-1.5 flex flex-wrap gap-x-6 gap-y-1">
+            <span><strong>1. Syed Siddiq Hussaini</strong> (160524747018)</span>
+            <span><strong>2. Syed Rafay Ali</strong> (160524747055)</span>
+            <span><strong>3. Mohammed Abdul Raheem</strong> (160524747053)</span>
+          </div>
+        </div>
+        <div class="text-xs text-slate-400 shrink-0">
+          &copy; 2026 IIOT • All Rights Reserved
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <script src="js/main.js"></script>
+</body>
+</html>

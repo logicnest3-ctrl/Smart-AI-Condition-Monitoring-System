@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Multi-Device Telemetry Dashboard | IIOT - Managed by Team Penguin</title>
+  <meta name="description" content="Industrial IoT multi-motor predictive maintenance dashboard managed by Team Penguin. Real-time telemetry, individual motor panels, manual temperature maintenance, shift scheduling, electricity tracking in INR, and PDF reports.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Global Enterprise Header -->
+<header class="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      
+      <!-- Brand Logo (Top-Left) -->
+      <a href="index.html" class="flex items-center gap-3 focus:outline-none">
+        <div class="w-9 h-9 rounded-lg bg-blue-700 flex items-center justify-center text-white font-bold text-base shadow-sm">
+          <span>⚙</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-bold tracking-tight text-slate-900">IIOT</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">Team Penguin</span>
+          </div>
+          <span class="text-[11px] text-slate-500 block -mt-0.5">Managed by Team Penguin</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html" class="text-slate-600 hover:text-slate-900 transition-colors">Home</a>
+        <a href="about.html" class="text-slate-600 hover:text-slate-900 transition-colors">Features &amp; Architecture</a>
+
+        <!-- Dedicated Live Dashboard Link (Opens in New Browser Tab) -->
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="text-blue-700 font-semibold transition-colors inline-flex items-center gap-1.5 font-semibold text-blue-700">
+          <span class="status-dot green"></span>
+          <span>Live Dashboard</span>
+          <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+
+        <a href="pricing.html" class="text-slate-600 hover:text-slate-900 transition-colors">Pricing (₹ INR)</a>
+        <a href="login.html" class="text-slate-600 hover:text-slate-900 transition-colors inline-flex items-center gap-1">
+          <span>Portals / Login</span>
+        </a>
+        <a href="contact.html" class="text-slate-600 hover:text-slate-900 transition-colors">Contact</a>
+      </nav>
+
+      <!-- Primary CTA Button (Opens in New Browser Tab) -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="login.html" class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+          Sign In
+        </a>
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="btn-primary px-4 py-2 text-xs sm:text-sm inline-flex items-center gap-2">
+          <span>Open Dashboard</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobileMenuBtn" class="p-2 rounded-md bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 focus:outline-none">
+          <svg id="menuIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+          <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div id="mobileDrawer" class="mobile-drawer md:hidden border-b border-slate-200 bg-white px-4">
+    <div class="py-4 space-y-2 text-sm font-medium">
+      <a href="index.html" class="block py-2 text-slate-700 hover:text-blue-700">Home</a>
+      <a href="about.html" class="block py-2 text-slate-700 hover:text-blue-700">Features &amp; Architecture</a>
+      <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="block py-2 font-semibold text-blue-700">Live Dashboard (New Tab) ↗</a>
+      <a href="pricing.html" class="block py-2 text-slate-700 hover:text-blue-700">Pricing (₹ INR)</a>
+      <a href="login.html" class="block py-2 text-slate-700 hover:text-blue-700">Portals &amp; Login</a>
+      <a href="contact.html" class="block py-2 text-slate-700 hover:text-blue-700">Contact</a>
+      <div class="pt-2 border-t border-slate-200">
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="btn-primary w-full py-2.5 rounded-lg text-center font-semibold block text-sm">
+          Open Telemetry Dashboard ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- Main Multi-Device Dashboard Container (Full-Width Clean Layout) -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    
+    <!-- Top Dashboard Header & Controls Bar -->
+    <div class="enterprise-card p-4 sm:p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-xl sm:text-2xl font-bold text-slate-900">Multi-Device Motor Predictive Maintenance</h1>
+          <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-800">Fleet Monitoring</span>
+        </div>
+        <p class="text-xs text-slate-500 mt-1">
+          Real-Time Condition Monitoring • Individual Motor Panels • Temperature Maintenance &amp; Manual Override • Electricity in ₹ INR
+        </p>
+      </div>
+
+      <!-- Telemetry Status Bar & Global Actions -->
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        
+        <!-- User Authentication Chip -->
+        <div class="flex items-center gap-1.5">
+          <span id="userAuthStatusBadge" class="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-800 border border-slate-300">
+            👤 Operator Mode
+          </span>
+          <a id="userAuthAction" href="login.html#developer" class="text-xs text-blue-700 font-bold hover:underline">
+            Developer Login
+          </a>
+        </div>
+
+        <!-- Live Timestamp -->
+        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded bg-slate-100 border border-slate-200 text-slate-700">
+          <span class="text-slate-400">Updated:</span>
+          <span id="liveTimestamp" class="font-semibold text-slate-900">--:--:--</span>
+        </div>
+
+        <!-- MQTT Status -->
+        <div id="mqttStatusBadge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold">
+          <span class="status-dot green"></span>
+          <span>MQTT: ONLINE (<span id="mqttPacketCount">5410</span>)</span>
+        </div>
+
+        <!-- Global Action: Download PDF Report -->
+        <button id="btnDownloadPdf" class="btn-primary px-3.5 py-1.5 rounded text-xs font-semibold inline-flex items-center gap-1.5 shadow-sm">
+          <span>📄</span>
+          <span>Download PDF Audit Report</span>
+        </button>
+
+        <!-- Stream Controls -->
+        <div class="flex items-center gap-1.5 pl-2 border-l border-slate-200">
+          <button id="btnPause" class="px-2.5 py-1.5 rounded border border-slate-300 bg-white hover:bg-slate-50 font-medium text-slate-700">
+            ⏸ Pause
+          </button>
+          
+          <select id="sampleRateSelect" class="px-2 py-1.5 rounded border border-slate-300 bg-white text-slate-700 font-medium text-xs focus:outline-none">
+            <option value="500">0.5s Sample</option>
+            <option value="1500" selected>1.5s Sample</option>
+            <option value="3000">3.0s Sample</option>
+          </select>
+
+          <!-- Audio Buzzer Toggle Button -->
+          <button id="btnToggleAudio" class="px-2.5 py-1.5 rounded border border-slate-300 bg-white hover:bg-slate-50 font-medium text-slate-700">
+            🔔 Buzzer Armed
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- INDUSTRIAL ALERT BUZZER ACTIVE NOTIFICATION BANNER -->
+    <div id="alarmBuzzerBanner" class="hidden buzzer-active-banner p-3.5 rounded-lg bg-red-600 text-white text-xs font-bold items-center justify-between shadow-lg">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🚨</span>
+        <span id="alarmBuzzerText" class="text-sm">ALERT BUZZER SOUNDING: Abnormality active on machine!</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span id="buzzerStatusPill" class="text-xs font-extrabold px-3 py-1 rounded bg-red-800 text-white animate-pulse">
+          🚨 BUZZER: ALARM ACTIVE
+        </span>
+        <button onclick="document.getElementById('btnToggleAudio').click()" class="px-3 py-1 rounded bg-white text-red-700 font-bold hover:bg-slate-100 transition shadow-sm">
+          Mute Buzzer
+        </button>
+      </div>
+    </div>
+
+    <!-- FLEET OVERVIEW HEADER & ACTIONS BAR -->
+    <div class="enterprise-card p-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base font-extrabold text-slate-900">Monitored Machines &amp; Devices</h2>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">Scrolling Down View</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">
+            Machines stacked vertically one by one. Click <strong>"Inspect Dashboard"</strong> to reveal that machine's dedicated 3D Digital Twin, live sensor graphs, and operational controls.
+          </p>
+        </div>
+
+        <!-- Commission Machine Button -->
+        <button id="btnOpenAddMachineModal" class="btn-primary px-3.5 py-2 rounded-lg text-xs font-bold inline-flex items-center gap-1.5 shadow-sm self-start sm:self-auto">
+          <span>➕</span>
+          <span>Add New Machine</span>
+        </button>
+      </div>
+
+      <!-- Feature Highlights Callout -->
+      <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+        <div class="p-2.5 rounded bg-slate-50 border border-slate-200 text-center">
+          <span class="text-slate-400 block text-[10px]">3D DIGITAL TWIN</span>
+          <span class="font-bold text-blue-700">Inside Each Inspect Panel</span>
+        </div>
+        <div class="p-2.5 rounded bg-slate-50 border border-slate-200 text-center">
+          <span class="text-slate-400 block text-[10px]">AI PREDICTION</span>
+          <span class="font-bold text-emerald-700">Health &amp; Due Date</span>
+        </div>
+        <div class="p-2.5 rounded bg-slate-50 border border-slate-200 text-center">
+          <span class="text-slate-400 block text-[10px]">ELECTRICITY</span>
+          <span class="font-bold text-slate-800">Billing in ₹ INR</span>
+        </div>
+        <div class="p-2.5 rounded bg-slate-50 border border-slate-200 text-center">
+          <span class="text-slate-400 block text-[10px]">ALERT INTERLOCK</span>
+          <span class="font-bold text-red-700">Audio Buzzer Alarm</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- VERTICAL FLEET STACK (Each Performance View Features its Own 3D Digital Twin) -->
+    <div id="fleetSummaryGrid" class="flex flex-col space-y-5">
+      <!-- Dynamically populated by dashboard.js with individual motor cards and dedicated dropdown 3D twins -->
+    </div>
+
+    <!-- Edge System Event Log Stream -->
+    <div class="enterprise-card p-5 space-y-3">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-700">MQTT Edge Event Stream</span>
+          <span class="text-[10px] text-slate-400">• Real-time Telemetry &amp; Anomaly Bus</span>
+        </div>
+      </div>
+      <div id="logStreamContainer" class="h-32 overflow-y-auto space-y-1 font-mono text-xs pr-2">
+        <!-- Dynamically rendered -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ADD NEW MACHINE MODAL -->
+  <div id="addMachineModal" class="modal-3d-backdrop fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="modal-3d-content bg-white w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+      
+      <div class="px-6 py-4 border-b border-slate-200 bg-slate-900 text-white flex items-center justify-between">
+        <div>
+          <h3 class="text-base font-bold">Commission New Machine to Fleet</h3>
+          <p class="text-xs text-slate-300">Expand IIOT condition monitoring to a new industrial motor or rotating asset</p>
+        </div>
+        <button id="btnCloseAddMachineModal" class="text-slate-400 hover:text-white text-xl font-bold px-2 py-1">
+          ✕
+        </button>
+      </div>
+
+      <form id="addMachineForm" class="p-6 space-y-4 text-xs">
+        
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Machine ID *</label>
+            <input id="newMachineId" type="text" required placeholder="e.g. MOTOR-04" class="w-full px-3 py-2 rounded-lg border border-slate-300 font-mono font-bold uppercase">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Machine Name *</label>
+            <input id="newMachineName" type="text" required placeholder="e.g. Hydraulic Stamping Press Motor" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Application / Process</label>
+            <input id="newMachineApp" type="text" placeholder="e.g. Primary Stamping Line" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Workshop Location</label>
+            <input id="newMachineLocation" type="text" placeholder="e.g. Press Shop Bay D-2" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Power (kW)</label>
+            <input id="newMachinePower" type="number" step="0.1" value="3.7" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Rated FLA (Amps)</label>
+            <input id="newMachineFla" type="number" step="0.1" value="7.2" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Voltage (V)</label>
+            <select id="newMachineVoltage" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white">
+              <option value="415" selected>415V 3-Phase</option>
+              <option value="230">230V Single-Phase</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Target Maintenance Temp (°C)</label>
+            <input id="newMachineTargetTemp" type="number" step="0.5" value="48.0" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Electricity Tariff (₹ / kWh)</label>
+            <input id="newMachineTariff" type="number" step="0.25" value="8.00" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div class="p-3 rounded-lg bg-blue-50 border border-blue-200 text-slate-600 space-y-1 text-[11px]">
+          <span class="font-bold text-blue-900 block">Dedicated 3D Digital Twin Auto-Provisioning:</span>
+          <span>Each added machine is automatically equipped with its own dedicated Three.js 3D Digital Twin, live probe sensors, and predictive analytics in its inspect dropdown.</span>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeAddMachineModal()" class="px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold">
+            Cancel
+          </button>
+          <button type="submit" class="btn-primary px-5 py-2 rounded-lg text-white font-bold shadow-sm">
+            Deploy Machine to Active Fleet
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- Global Enterprise Footer (With Complete Developer Credits at the End) -->
+<footer class="border-t border-slate-200 bg-white py-12 text-slate-600 mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-7 h-7 rounded bg-blue-700 flex items-center justify-center text-white font-bold text-xs">
+            ⚙
+          </div>
+          <span class="text-base font-bold text-slate-900">IIOT</span>
+        </div>
+        <p class="text-xs text-slate-500 leading-relaxed mb-3">
+          Low-Cost Modular Industrial IoT Predictive Maintenance System. Built for multi-motor telemetry, temperature maintenance, wear-and-tear scheduling, and condition monitoring.
+        </p>
+        <span class="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-1 rounded border border-blue-200">
+          Managed by Team Penguin
+        </span>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Navigation</div>
+        <ul class="space-y-2 text-xs">
+          <li><a href="index.html" class="hover:text-blue-700">Home</a></li>
+          <li><a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 font-semibold text-blue-700">Live Dashboard (New Tab) ↗</a></li>
+          <li><a href="login.html" class="hover:text-blue-700">Portals &amp; Login</a></li>
+          <li><a href="about.html" class="hover:text-blue-700">Engineering Features</a></li>
+          <li><a href="pricing.html" class="hover:text-blue-700">Pricing (₹ INR)</a></li>
+          <li><a href="contact.html" class="hover:text-blue-700">Contact Team Penguin</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Sensors &amp; Hardware</div>
+        <ul class="space-y-2 text-xs">
+          <li>DS18B20 Digital Temperature Probe</li>
+          <li>MPU6050 6-DoF Vibration Sensor</li>
+          <li>ACS712 Current Sensor</li>
+          <li>ESP32 Dual-Core FreeRTOS</li>
+          <li>Sensor Node Hardware BOM: &lt; ₹800 INR</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Compliance &amp; Legal</div>
+        <ul class="space-y-2 text-xs">
+          <li><a href="privacy.html" class="hover:text-blue-700">Privacy Policy</a></li>
+          <li><a href="terms.html" class="hover:text-blue-700">Terms of Service</a></li>
+          <li>ISO 10816 Mechanical Standard</li>
+          <li>Electricity Tariff Billing: ₹ INR / kWh</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Official Developer Credits (Strictly at the End of the Page) -->
+    <div class="border-t border-slate-200 pt-6">
+      <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="text-xs font-extrabold uppercase tracking-wider text-slate-900">
+            ALL CREDITS AND DEVELOPED BY TEAM PENGUIN
+          </div>
+          <div class="text-xs text-slate-700 mt-1.5 flex flex-wrap gap-x-6 gap-y-1">
+            <span><strong>1. Syed Siddiq Hussaini</strong> (160524747018)</span>
+            <span><strong>2. Syed Rafay Ali</strong> (160524747055)</span>
+            <span><strong>3. Mohammed Abdul Raheem</strong> (160524747053)</span>
+          </div>
+        </div>
+        <div class="text-xs text-slate-400 shrink-0">
+          &copy; 2026 IIOT • All Rights Reserved
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

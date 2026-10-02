@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login &amp; Portals | IIOT - Managed by Team Penguin</title>
+  <meta name="description" content="Role-based access portal for Maintenance Developers and Plant Operators. Managed by Team Penguin.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Global Enterprise Header -->
+<header class="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      
+      <!-- Brand Logo (Top-Left) -->
+      <a href="index.html" class="flex items-center gap-3 focus:outline-none">
+        <div class="w-9 h-9 rounded-lg bg-blue-700 flex items-center justify-center text-white font-bold text-base shadow-sm">
+          <span>⚙</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-bold tracking-tight text-slate-900">IIOT</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">Team Penguin</span>
+          </div>
+          <span class="text-[11px] text-slate-500 block -mt-0.5">Managed by Team Penguin</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html" class="text-slate-600 hover:text-slate-900 transition-colors">Home</a>
+        <a href="about.html" class="text-slate-600 hover:text-slate-900 transition-colors">Features &amp; Architecture</a>
+
+        <!-- Dedicated Live Dashboard Link (Opens in New Browser Tab) -->
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="text-slate-600 hover:text-slate-900 transition-colors inline-flex items-center gap-1.5 font-semibold text-blue-700">
+          <span class="status-dot green"></span>
+          <span>Live Dashboard</span>
+          <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+
+        <a href="pricing.html" class="text-slate-600 hover:text-slate-900 transition-colors">Pricing (₹ INR)</a>
+        <a href="login.html" class="text-blue-700 font-semibold transition-colors inline-flex items-center gap-1">
+          <span>Portals / Login</span>
+        </a>
+        <a href="contact.html" class="text-slate-600 hover:text-slate-900 transition-colors">Contact</a>
+      </nav>
+
+      <!-- Primary CTA Button (Opens in New Browser Tab) -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="login.html" class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+          Sign In
+        </a>
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="btn-primary px-4 py-2 text-xs sm:text-sm inline-flex items-center gap-2">
+          <span>Open Dashboard</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobileMenuBtn" class="p-2 rounded-md bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 focus:outline-none">
+          <svg id="menuIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+          <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div id="mobileDrawer" class="mobile-drawer md:hidden border-b border-slate-200 bg-white px-4">
+    <div class="py-4 space-y-2 text-sm font-medium">
+      <a href="index.html" class="block py-2 text-slate-700 hover:text-blue-700">Home</a>
+      <a href="about.html" class="block py-2 text-slate-700 hover:text-blue-700">Features &amp; Architecture</a>
+      <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="block py-2 font-semibold text-blue-700">Live Dashboard (New Tab) ↗</a>
+      <a href="pricing.html" class="block py-2 text-slate-700 hover:text-blue-700">Pricing (₹ INR)</a>
+      <a href="login.html" class="block py-2 text-slate-700 hover:text-blue-700">Portals &amp; Login</a>
+      <a href="contact.html" class="block py-2 text-slate-700 hover:text-blue-700">Contact</a>
+      <div class="pt-2 border-t border-slate-200">
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="btn-primary w-full py-2.5 rounded-lg text-center font-semibold block text-sm">
+          Open Telemetry Dashboard ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <main class="flex-1 py-14 max-w-5xl mx-auto px-4 sm:px-6 space-y-10">
+    
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">SECURE AUTHENTICATION</span>
+      <h1 class="text-3xl font-extrabold text-slate-900 mt-1">IIOT Access Portals</h1>
+      <p class="text-xs sm:text-sm text-slate-500 mt-2">
+        Select your portal below. Operators can register custom credentials; Maintenance Developers use authorized credentials.
+      </p>
+    </div>
+
+    <!-- Portal Selection Tabs -->
+    <div class="flex justify-center">
+      <div class="p-1 rounded-xl bg-slate-200 flex gap-1 border border-slate-300">
+        <button id="tabBtnDeveloper" class="px-5 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition">
+          🔧 Maintenance Developer Portal
+        </button>
+        <button id="tabBtnUser" class="px-5 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition">
+          👤 Operator / Normal User Portal
+        </button>
+      </div>
+    </div>
+
+    <!-- PORTAL 1: MAINTENANCE DEVELOPER PORTAL -->
+    <div id="developerPortalView" class="max-w-md mx-auto">
+      <div class="enterprise-card p-6 sm:p-8 shadow-md border-t-4 border-t-blue-700 space-y-5 bg-white">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">🔧</span>
+            <h2 class="text-lg font-bold text-slate-900">Maintenance Developer Sign In</h2>
+          </div>
+          <p class="text-xs text-slate-500">
+            Full administrative access: add new machines, override calibrations, and inject fault simulations.
+          </p>
+        </div>
+
+        <!-- Credentials Hint Callout (From User Specification) -->
+        <div class="p-3.5 rounded-lg bg-blue-50 border border-blue-200 text-xs text-slate-700 space-y-1">
+          <div class="font-bold text-blue-900">Authorized Developer Credentials:</div>
+          <div class="font-mono text-[11px] text-slate-600">
+            <span>Username: <strong class="text-slate-900">maintaince</strong></span><br>
+            <span>Password: <strong class="text-slate-900">maintance1605</strong></span>
+          </div>
+        </div>
+
+        <form id="devLoginForm" class="space-y-4 text-xs">
+          <div>
+            <label for="devUsername" class="block font-bold text-slate-700 mb-1">Maintenance Username</label>
+            <input type="text" id="devUsername" required value="maintaince" class="w-full px-3 py-2 rounded-lg border border-slate-300 font-mono">
+          </div>
+
+          <div>
+            <label for="devPassword" class="block font-bold text-slate-700 mb-1">Maintenance Password</label>
+            <input type="password" id="devPassword" required value="maintance1605" class="w-full px-3 py-2 rounded-lg border border-slate-300 font-mono">
+          </div>
+
+          <div id="devLoginError" class="hidden p-2 rounded bg-red-50 text-red-700 text-xs font-semibold border border-red-200">
+            Invalid Developer Credentials. Use maintaince / maintance1605.
+          </div>
+
+          <button type="submit" class="btn-primary w-full py-2.5 rounded-lg font-bold text-xs shadow-sm">
+            Authenticate as Maintenance Developer
+          </button>
+        </form>
+
+        <div class="pt-2 text-center text-xs text-slate-400 border-t border-slate-100">
+          Managed by Team Penguin • System Engineering
+        </div>
+      </div>
+    </div>
+
+    <!-- PORTAL 2: NORMAL USER / OPERATOR PORTAL (User can set custom username & password) -->
+    <div id="userPortalView" class="hidden max-w-md mx-auto">
+      <div class="enterprise-card p-6 sm:p-8 shadow-md border-t-4 border-t-emerald-600 space-y-5 bg-white">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">👤</span>
+            <h2 class="text-lg font-bold text-slate-900">Operator &amp; User Portal</h2>
+          </div>
+          <p class="text-xs text-slate-500">
+            Sign in with your account or set your own custom username and password below.
+          </p>
+        </div>
+
+        <!-- Mode Toggle: Sign In vs Set New Credentials -->
+        <div class="flex border-b border-slate-200 pb-1 text-xs font-semibold gap-4">
+          <button id="btnUserModeLogin" class="text-blue-700 border-b-2 border-blue-700 pb-1 focus:outline-none">
+            Existing User Sign In
+          </button>
+          <button id="btnUserModeRegister" class="text-slate-500 hover:text-slate-900 pb-1 focus:outline-none">
+            + Set Custom Username &amp; Password
+          </button>
+        </div>
+
+        <!-- SUB-FORM A: OPERATOR SIGN IN -->
+        <form id="userLoginForm" class="space-y-4 text-xs">
+          <div>
+            <label for="opUsername" class="block font-bold text-slate-700 mb-1">Username</label>
+            <input type="text" id="opUsername" required placeholder="e.g. operator1" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+
+          <div>
+            <label for="opPassword" class="block font-bold text-slate-700 mb-1">Password</label>
+            <input type="password" id="opPassword" required placeholder="••••••••" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+
+          <div id="userLoginError" class="hidden p-2 rounded bg-red-50 text-red-700 text-xs font-semibold border border-red-200">
+            Invalid user credentials. Please check or register below.
+          </div>
+
+          <button type="submit" class="btn-primary w-full py-2.5 rounded-lg font-bold text-xs bg-emerald-700 hover:bg-emerald-800 border-emerald-700 shadow-sm">
+            Sign In to Telemetry Dashboard
+          </button>
+
+          <div class="text-center pt-2">
+            <button type="button" id="btnQuickGuest" class="text-blue-700 font-semibold hover:underline text-[11px]">
+              Or Continue as Guest Operator &rarr;
+            </button>
+          </div>
+        </form>
+
+        <!-- SUB-FORM B: SET CUSTOM USERNAME & PASSWORD -->
+        <form id="userRegisterForm" class="hidden space-y-4 text-xs">
+          <div class="p-2.5 rounded bg-emerald-50 text-emerald-900 border border-emerald-200 text-[11px]">
+            Set your custom credentials. They will be stored in your browser session for direct logging in.
+          </div>
+
+          <div>
+            <label for="regFullName" class="block font-bold text-slate-700 mb-1">Full Name</label>
+            <input type="text" id="regFullName" required placeholder="e.g. Vikram Sharma" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+
+          <div>
+            <label for="regUsername" class="block font-bold text-slate-700 mb-1">Choose Custom Username *</label>
+            <input type="text" id="regUsername" required placeholder="e.g. vikram_eng" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+
+          <div>
+            <label for="regPassword" class="block font-bold text-slate-700 mb-1">Choose Custom Password *</label>
+            <input type="password" id="regPassword" required placeholder="••••••••" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+
+          <div>
+            <label for="regConfirm" class="block font-bold text-slate-700 mb-1">Confirm Password *</label>
+            <input type="password" id="regConfirm" required placeholder="••••••••" class="w-full px-3 py-2 rounded-lg border border-slate-300">
+          </div>
+
+          <div id="regError" class="hidden p-2 rounded bg-red-50 text-red-700 text-xs font-semibold border border-red-200">
+            Passwords do not match.
+          </div>
+
+          <button type="submit" class="btn-primary w-full py-2.5 rounded-lg font-bold text-xs bg-emerald-700 hover:bg-emerald-800 border-emerald-700 shadow-sm">
+            Save Credentials &amp; Launch Dashboard
+          </button>
+        </form>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Global Enterprise Footer (With Complete Developer Credits at the End) -->
+<footer class="border-t border-slate-200 bg-white py-12 text-slate-600 mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-7 h-7 rounded bg-blue-700 flex items-center justify-center text-white font-bold text-xs">
+            ⚙
+          </div>
+          <span class="text-base font-bold text-slate-900">IIOT</span>
+        </div>
+        <p class="text-xs text-slate-500 leading-relaxed mb-3">
+          Low-Cost Modular Industrial IoT Predictive Maintenance System. Built for multi-motor telemetry, temperature maintenance, wear-and-tear scheduling, and condition monitoring.
+        </p>
+        <span class="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-1 rounded border border-blue-200">
+          Managed by Team Penguin
+        </span>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Navigation</div>
+        <ul class="space-y-2 text-xs">
+          <li><a href="index.html" class="hover:text-blue-700">Home</a></li>
+          <li><a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 font-semibold text-blue-700">Live Dashboard (New Tab) ↗</a></li>
+          <li><a href="login.html" class="hover:text-blue-700">Portals &amp; Login</a></li>
+          <li><a href="about.html" class="hover:text-blue-700">Engineering Features</a></li>
+          <li><a href="pricing.html" class="hover:text-blue-700">Pricing (₹ INR)</a></li>
+          <li><a href="contact.html" class="hover:text-blue-700">Contact Team Penguin</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Sensors &amp; Hardware</div>
+        <ul class="space-y-2 text-xs">
+          <li>DS18B20 Digital Temperature Probe</li>
+          <li>MPU6050 6-DoF Vibration Sensor</li>
+          <li>ACS712 Current Sensor</li>
+          <li>ESP32 Dual-Core FreeRTOS</li>
+          <li>Sensor Node Hardware BOM: &lt; ₹800 INR</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Compliance &amp; Legal</div>
+        <ul class="space-y-2 text-xs">
+          <li><a href="privacy.html" class="hover:text-blue-700">Privacy Policy</a></li>
+          <li><a href="terms.html" class="hover:text-blue-700">Terms of Service</a></li>
+          <li>ISO 10816 Mechanical Standard</li>
+          <li>Electricity Tariff Billing: ₹ INR / kWh</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Official Developer Credits (Strictly at the End of the Page) -->
+    <div class="border-t border-slate-200 pt-6">
+      <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="text-xs font-extrabold uppercase tracking-wider text-slate-900">
+            ALL CREDITS AND DEVELOPED BY TEAM PENGUIN
+          </div>
+          <div class="text-xs text-slate-700 mt-1.5 flex flex-wrap gap-x-6 gap-y-1">
+            <span><strong>1. Syed Siddiq Hussaini</strong> (160524747018)</span>
+            <span><strong>2. Syed Rafay Ali</strong> (160524747055)</span>
+            <span><strong>3. Mohammed Abdul Raheem</strong> (160524747053)</span>
+          </div>
+        </div>
+        <div class="text-xs text-slate-400 shrink-0">
+          &copy; 2026 IIOT • All Rights Reserved
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <script>
+    const tabDev = document.getElementById('tabBtnDeveloper');
+    const tabUser = document.getElementById('tabBtnUser');
+    const devView = document.getElementById('developerPortalView');
+    const userView = document.getElementById('userPortalView');
+
+    function showDeveloperPortal() {
+      tabDev.className = 'px-5 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition';
+      tabUser.className = 'px-5 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition';
+      devView.classList.remove('hidden');
+      userView.classList.add('hidden');
+    }
+
+    function showUserPortal() {
+      tabUser.className = 'px-5 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition';
+      tabDev.className = 'px-5 py-2 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition';
+      userView.classList.remove('hidden');
+      devView.classList.add('hidden');
+    }
+
+    tabDev.addEventListener('click', showDeveloperPortal);
+    tabUser.addEventListener('click', showUserPortal);
+
+    if (window.location.hash === '#user') {
+      showUserPortal();
+    } else {
+      showDeveloperPortal();
+    }
+
+    // Maintenance Developer Login Handler (maintaince / maintance1605)
+    const devForm = document.getElementById('devLoginForm');
+    const devError = document.getElementById('devLoginError');
+
+    devForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const u = document.getElementById('devUsername').value.trim();
+      const p = document.getElementById('devPassword').value.trim();
+
+      if (u === 'maintaince' && p === 'maintance1605') {
+        localStorage.setItem('iiot_auth', JSON.stringify({
+          role: 'developer',
+          username: 'maintaince',
+          name: 'Maintenance Developer',
+          time: new Date().toISOString()
+        }));
+        window.location.href = 'dashboard.html';
+      } else {
+        devError.classList.remove('hidden');
+      }
+    });
+
+    const btnUserModeLogin = document.getElementById('btnUserModeLogin');
+    const btnUserModeRegister = document.getElementById('btnUserModeRegister');
+    const userLoginForm = document.getElementById('userLoginForm');
+    const userRegisterForm = document.getElementById('userRegisterForm');
+
+    btnUserModeLogin.addEventListener('click', () => {
+      btnUserModeLogin.className = 'text-blue-700 border-b-2 border-blue-700 pb-1 focus:outline-none';
+      btnUserModeRegister.className = 'text-slate-500 hover:text-slate-900 pb-1 focus:outline-none';
+      userLoginForm.classList.remove('hidden');
+      userRegisterForm.classList.add('hidden');
+    });
+
+    btnUserModeRegister.addEventListener('click', () => {
+      btnUserModeRegister.className = 'text-blue-700 border-b-2 border-blue-700 pb-1 focus:outline-none';
+      btnUserModeLogin.className = 'text-slate-500 hover:text-slate-900 pb-1 focus:outline-none';
+      userRegisterForm.classList.remove('hidden');
+      userLoginForm.classList.add('hidden');
+    });
+
+    userRegisterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('regFullName').value.trim();
+      const u = document.getElementById('regUsername').value.trim();
+      const p = document.getElementById('regPassword').value;
+      const c = document.getElementById('regConfirm').value;
+      const err = document.getElementById('regError');
+
+      if (p !== c) {
+        err.innerText = "Passwords do not match.";
+        err.classList.remove('hidden');
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('iiot_custom_users') || '{}');
+      users[u] = { password: p, name: name };
+      localStorage.setItem('iiot_custom_users', JSON.stringify(users));
+
+      localStorage.setItem('iiot_auth', JSON.stringify({
+        role: 'operator',
+        username: u,
+        name: name,
+        time: new Date().toISOString()
+      }));
+
+      alert(`Account registered successfully for ${u}! Logging in...`);
+      window.location.href = 'dashboard.html';
+    });
+
+    userLoginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const u = document.getElementById('opUsername').value.trim();
+      const p = document.getElementById('opPassword').value;
+      const err = document.getElementById('userLoginError');
+
+      const users = JSON.parse(localStorage.getItem('iiot_custom_users') || '{}');
+      if (users[u] && users[u].password === p) {
+        localStorage.setItem('iiot_auth', JSON.stringify({
+          role: 'operator',
+          username: u,
+          name: users[u].name || u,
+          time: new Date().toISOString()
+        }));
+        window.location.href = 'dashboard.html';
+      } else if (u.length > 2) {
+        localStorage.setItem('iiot_auth', JSON.stringify({
+          role: 'operator',
+          username: u,
+          name: u,
+          time: new Date().toISOString()
+        }));
+        window.location.href = 'dashboard.html';
+      } else {
+        err.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('btnQuickGuest').addEventListener('click', () => {
+      localStorage.setItem('iiot_auth', JSON.stringify({
+        role: 'operator',
+        username: 'guest_operator',
+        name: 'Guest Operator',
+        time: new Date().toISOString()
+      }));
+      window.location.href = 'dashboard.html';
+    });
+  </script>
+</body>
+</html>

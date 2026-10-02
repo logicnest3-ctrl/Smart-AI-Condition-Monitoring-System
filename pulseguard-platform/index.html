@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IIOT | Predictive Maintenance System - Managed by Team Penguin</title>
+  <meta name="description" content="Industrial IoT Predictive Maintenance System managed by Team Penguin. Solving costly motor breakdowns, uncontrolled wear-tear, and high electricity bills with modular condition monitoring under ₹800 INR.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- Global Enterprise Header -->
+<header class="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      
+      <!-- Brand Logo (Top-Left) -->
+      <a href="index.html" class="flex items-center gap-3 focus:outline-none">
+        <div class="w-9 h-9 rounded-lg bg-blue-700 flex items-center justify-center text-white font-bold text-base shadow-sm">
+          <span>⚙</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-bold tracking-tight text-slate-900">IIOT</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">Team Penguin</span>
+          </div>
+          <span class="text-[11px] text-slate-500 block -mt-0.5">Managed by Team Penguin</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium">
+        <a href="index.html" class="text-blue-700 font-semibold transition-colors">Home</a>
+        <a href="about.html" class="text-slate-600 hover:text-slate-900 transition-colors">Features &amp; Architecture</a>
+
+        <!-- Dedicated Live Dashboard Link (Opens in New Browser Tab) -->
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="text-slate-600 hover:text-slate-900 transition-colors inline-flex items-center gap-1.5 font-semibold text-blue-700">
+          <span class="status-dot green"></span>
+          <span>Live Dashboard</span>
+          <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+
+        <a href="pricing.html" class="text-slate-600 hover:text-slate-900 transition-colors">Pricing (₹ INR)</a>
+        <a href="contact.html" class="text-slate-600 hover:text-slate-900 transition-colors">Contact</a>
+      </nav>
+
+      <!-- Primary CTA Button (Opens in New Browser Tab) -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="btn-primary px-4 py-2 text-xs sm:text-sm inline-flex items-center gap-2">
+          <span>Open Dashboard</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobileMenuBtn" class="p-2 rounded-md bg-slate-100 border border-slate-200 text-slate-700 hover:text-slate-900 focus:outline-none">
+          <svg id="menuIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+          <svg id="closeIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div id="mobileDrawer" class="mobile-drawer md:hidden border-b border-slate-200 bg-white px-4">
+    <div class="py-4 space-y-2 text-sm font-medium">
+      <a href="index.html" class="block py-2 text-slate-700 hover:text-blue-700">Home</a>
+      <a href="about.html" class="block py-2 text-slate-700 hover:text-blue-700">Features &amp; Architecture</a>
+      <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="block py-2 font-semibold text-blue-700">Live Dashboard (New Tab)</a>
+      <a href="pricing.html" class="block py-2 text-slate-700 hover:text-blue-700">Pricing (₹ INR)</a>
+      <a href="contact.html" class="block py-2 text-slate-700 hover:text-blue-700">Contact</a>
+      <div class="pt-2 border-t border-slate-200">
+        <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="btn-primary w-full py-2.5 rounded-lg text-center font-semibold block text-sm">
+          Open Telemetry Dashboard ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <main class="flex-1">
+
+    <!-- Hero Section (Laser-Focused on Problem & Solution, No Credits in Middle) -->
+    <section class="py-14 sm:py-20 border-b border-slate-200 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          <!-- Hero Copy -->
+          <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-700">
+              <span class="status-dot green"></span>
+              <span class="font-semibold text-slate-900">Modular IIoT Condition Monitoring</span>
+              <span class="text-slate-400">•</span>
+              <span>Managed by Team Penguin</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+              Eliminate Motor Failures &amp; Cut Unscheduled Downtime
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              Industrial motors fail without warning, racking up lakhs in repair costs, burned stators, and wasted electricity. 
+              Our modular IIoT predictive maintenance system continuously monitors multi-device health, manages shift timings to prevent wear-and-tear, and generates audit reports—at a hardware cost <strong>under ₹800 INR</strong>.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
+              <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="btn-primary w-full sm:w-auto px-6 py-3 rounded-lg font-semibold text-sm inline-flex items-center justify-center gap-2 shadow-sm">
+                <span>Launch Live Dashboard (New Tab)</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
+              
+              <a href="#problem-solution" class="btn-secondary w-full sm:w-auto px-5 py-3 rounded-lg font-semibold text-sm inline-flex items-center justify-center gap-2">
+                <span>Explore Problems &amp; Solution ↓</span>
+              </a>
+            </div>
+
+            <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-5 text-xs text-slate-500 font-medium">
+              <span>● Multi-Device Support</span>
+              <span>● Temperature Maintenance</span>
+              <span>● Shift Timings &amp; ₹ INR Billing</span>
+              <span>● Instant PDF Audit</span>
+            </div>
+
+          </div>
+
+          <!-- Hero Multi-Device Telemetry Preview Card -->
+          <div class="lg:col-span-5">
+            <div class="enterprise-card p-5 sm:p-6 shadow-md border-slate-300 space-y-4">
+              <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                <div>
+                  <div class="font-bold text-sm text-slate-900">MULTI-DEVICE FLEET STATUS</div>
+                  <div class="text-[11px] text-slate-500">Live Workshop Monitoring • Currency: ₹ INR</div>
+                </div>
+                <span class="text-xs px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold border border-emerald-200">ALL 3 ONLINE</span>
+              </div>
+
+              <!-- Unit 1 -->
+              <div class="p-3 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
+                <div>
+                  <div class="font-bold text-slate-900">MOTOR-01: Conveyor Belt (0.75kW)</div>
+                  <div class="text-[10px] text-slate-500">42.5°C • 0.052g RMS • 1.34A • Shift Active</div>
+                </div>
+                <div class="text-right">
+                  <div class="font-bold text-emerald-700">₹ 38.80 / day</div>
+                  <div class="text-[9px] text-slate-400">98% Health</div>
+                </div>
+              </div>
+
+              <!-- Unit 2 -->
+              <div class="p-3 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
+                <div>
+                  <div class="font-bold text-slate-900">MOTOR-02: Exhaust Blower (1.50kW)</div>
+                  <div class="text-[10px] text-slate-500">48.2°C • 0.078g RMS • 2.45A • Shift Active</div>
+                </div>
+                <div class="text-right">
+                  <div class="font-bold text-blue-700">₹ 102.40 / day</div>
+                  <div class="text-[9px] text-slate-400">95% Health</div>
+                </div>
+              </div>
+
+              <!-- Unit 3 -->
+              <div class="p-3 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
+                <div>
+                  <div class="font-bold text-slate-900">MOTOR-03: Coolant Pump (2.20kW)</div>
+                  <div class="text-[10px] text-slate-500">44.1°C • 0.065g RMS • 3.52A • Shift Active</div>
+                </div>
+                <div class="text-right">
+                  <div class="font-bold text-slate-900">₹ 88.80 / day</div>
+                  <div class="text-[9px] text-slate-400">97% Health</div>
+                </div>
+              </div>
+
+              <div class="pt-3 border-t border-slate-200 flex justify-between items-center text-xs">
+                <span class="text-slate-500">Hardware BOM: &lt; ₹800 INR</span>
+                <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="text-blue-700 font-bold hover:underline inline-flex items-center gap-1">
+                  <span>Open Full Dashboard</span>
+                  <span>↗</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: THE CRITICAL PROBLEMS (Requirement 8) -->
+    <section id="problem-solution" class="py-16 sm:py-20 bg-slate-50 border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="text-xs font-bold text-red-600 uppercase tracking-wider">THE INDUSTRIAL CHALLENGE</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+            The Costly Problems Faced by Factories &amp; Workshops
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-2">
+            Why traditional motor management leads to unexpected breakdowns, wasted electricity bills, and lost production revenue.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Problem 1 -->
+          <div class="enterprise-card p-5 border-l-4 border-l-red-500 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-lg bg-red-50 text-red-700 flex items-center justify-center font-bold text-lg mb-3">
+                ⚠️
+              </div>
+              <h3 class="text-base font-bold text-slate-900 mb-2">Unplanned Motor Burnouts</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                42% of industrial machine failures originate in electric motors. Bearings wear out silently and windings overheat without warning, shutting down entire assembly lines.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-red-700">
+              Avg. Downtime Cost: ₹50,000+ / hour
+            </div>
+          </div>
+
+          <!-- Problem 2 -->
+          <div class="enterprise-card p-5 border-l-4 border-l-amber-500 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-lg mb-3">
+                ⚡
+              </div>
+              <h3 class="text-base font-bold text-slate-900 mb-2">Unmanaged Electricity &amp; Wear</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Motors run without shift schedules during idle factory hours, driving up high commercial tariffs in ₹ INR and accelerating mechanical fatigue by 3x without thermal rest.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-amber-700">
+              25% Wasted Electrical Energy
+            </div>
+          </div>
+
+          <!-- Problem 3 -->
+          <div class="enterprise-card p-5 border-l-4 border-l-slate-500 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-lg mb-3">
+                💰
+              </div>
+              <h3 class="text-base font-bold text-slate-900 mb-2">₹5,00,000+ Proprietary SCADA</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Existing vibration analyzers and industrial predictive maintenance rigs require proprietary hardware licenses costing lakhs, making continuous monitoring unreachable for MSMEs and labs.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-slate-700">
+              Prohibitive Setup Costs
+            </div>
+          </div>
+
+          <!-- Problem 4 -->
+          <div class="enterprise-card p-5 border-l-4 border-l-purple-500 flex flex-col justify-between">
+            <div>
+              <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold text-lg mb-3">
+                🔌
+              </div>
+              <h3 class="text-base font-bold text-slate-900 mb-2">False Alarms from Sensor Faults</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Simple threshold controllers trip emergency breakers when a loose sensor wire disconnects, confusing an instrumentation failure with genuine mechanical danger.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-purple-700">
+              Nuisance Tripping
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: THE SOLUTION PROVIDED BY US (Requirement 8) -->
+    <section class="py-16 sm:py-20 bg-white border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">THE ENGINEERED SOLUTION</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+            Our Solution: IIOT Condition Monitoring System
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-2">
+            A practical, open, multi-device condition monitoring platform engineered to address every industrial challenge.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Solution 1 -->
+          <div class="enterprise-card p-6 border-slate-300">
+            <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-base mb-3 border border-blue-200">
+              01
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Multi-Device Individual Monitoring</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Every motor has its own individual panel and sensors (DS18B20 digital temperature, MPU6050 vibration RMS, ACS712 line current). Track multiple machines concurrently across your workshop.
+            </p>
+          </div>
+
+          <!-- Solution 2 -->
+          <div class="enterprise-card p-6 border-slate-300">
+            <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-base mb-3 border border-emerald-200">
+              02
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Temperature Maintenance &amp; Manual Override</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Users can specify target maintenance temperatures and alarm thresholds. Includes a dedicated manual value setting mode to inject custom test values and verify cooling interlocks.
+            </p>
+          </div>
+
+          <!-- Solution 3 -->
+          <div class="enterprise-card p-6 border-slate-300">
+            <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-base mb-3 border border-amber-200">
+              03
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Machine Schedule &amp; Electricity (₹ INR)</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Configurable shift timings (Start, End, Days/Week) and electricity tariffs in ₹ INR / kWh. Automatically calculates daily/monthly power costs and wear-and-tear index to schedule cooling rest.
+            </p>
+          </div>
+
+          <!-- Solution 4 -->
+          <div class="enterprise-card p-6 border-slate-300">
+            <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold text-base mb-3 border border-purple-200">
+              04
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Comprehensive PDF Audit Summary</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              1-click PDF download compiling fleet summaries, working timings, historical readings, and an explicit register of every abnormal activity and anomaly across all machines.
+            </p>
+          </div>
+
+          <!-- Solution 5 -->
+          <div class="enterprise-card p-6 border-slate-300">
+            <div class="w-10 h-10 rounded-lg bg-red-50 text-red-700 flex items-center justify-center font-bold text-base mb-3 border border-red-200">
+              05
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Hardware Sensor Fault Isolation</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Intelligent logic distinguishes between actual mechanical degradation and an instrument wiring disconnect. Prevents false plant shutdowns when a sensor wire loosens.
+            </p>
+          </div>
+
+          <!-- Solution 6 -->
+          <div class="enterprise-card p-6 border-slate-300">
+            <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-base mb-3 border border-blue-200">
+              06
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Hardware Node Cost Under ₹800 INR</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Replaces proprietary ₹5,00,000 systems with standard, reliable ESP32 microcontrollers and commodity industrial sensors for unmatched cost-effectiveness.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Comparison Table: Traditional vs IIOT Solution -->
+        <div class="mt-14 enterprise-card p-6 shadow-sm">
+          <h3 class="text-base font-bold text-slate-900 mb-4 text-center sm:text-left">
+            Direct Comparison: Traditional Maintenance vs. IIOT Solution
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 text-slate-700 uppercase font-semibold">
+                <tr>
+                  <th class="px-4 py-3">Feature / Capability</th>
+                  <th class="px-4 py-3 text-red-700">Traditional / Proprietary</th>
+                  <th class="px-4 py-3 text-blue-700">IIOT Solution (Our System)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200">
+                <tr>
+                  <td class="px-4 py-3 font-semibold text-slate-900">Hardware Node Cost</td>
+                  <td class="px-4 py-3 text-slate-600">₹5,00,000+ with proprietary lock-in</td>
+                  <td class="px-4 py-3 font-bold text-emerald-700">&lt; ₹800 INR BOM (ESP32)</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-semibold text-slate-900">Multi-Device Coverage</td>
+                  <td class="px-4 py-3 text-slate-600">Single channel or expensive licenses</td>
+                  <td class="px-4 py-3 font-bold text-blue-700">Multi-motor panels with individual sensors</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-semibold text-slate-900">Temperature Maintenance</td>
+                  <td class="px-4 py-3 text-slate-600">Fixed, rigid factory trip limits</td>
+                  <td class="px-4 py-3 font-bold text-blue-700">User-defined setpoints + manual value setting</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-semibold text-slate-900">Shift Timings &amp; Electricity</td>
+                  <td class="px-4 py-3 text-slate-600">No shift integration or power cost metrics</td>
+                  <td class="px-4 py-3 font-bold text-blue-700">Shift timings, wear-tear index &amp; ₹ INR billing</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-semibold text-slate-900">Audit &amp; Reporting</td>
+                  <td class="px-4 py-3 text-slate-600">Manual inspection clipboards</td>
+                  <td class="px-4 py-3 font-bold text-blue-700">1-Click PDF with readings &amp; abnormal activities</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION: CALL TO ACTION -->
+    <section class="py-14 bg-slate-900 text-white text-center">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+          Ready to Deploy Multi-Motor Predictive Maintenance?
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-sm mt-3 max-w-xl mx-auto">
+          Access the real-time telemetry dashboard in a new tab, inspect individual motor panels, set maintenance temperatures, and download PDF audit reports.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+          <a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="btn-primary w-full sm:w-auto px-6 py-3 rounded-lg font-semibold text-xs sm:text-sm inline-flex items-center justify-center gap-2">
+            <span>Launch Live Dashboard (New Tab) ↗</span>
+          </a>
+          <a href="about.html" class="px-5 py-3 rounded-lg font-semibold text-xs sm:text-sm bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white transition">
+            <span>Review Engineering Features</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Enterprise Footer (With Complete Developer Credits at the End) -->
+<footer class="border-t border-slate-200 bg-white py-12 text-slate-600 mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-7 h-7 rounded bg-blue-700 flex items-center justify-center text-white font-bold text-xs">
+            ⚙
+          </div>
+          <span class="text-base font-bold text-slate-900">IIOT</span>
+        </div>
+        <p class="text-xs text-slate-500 leading-relaxed mb-3">
+          Low-Cost Modular Industrial IoT Predictive Maintenance System. Built for multi-motor telemetry, temperature maintenance, wear-and-tear scheduling, and condition monitoring.
+        </p>
+        <span class="text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-1 rounded border border-blue-200">
+          Managed by Team Penguin
+        </span>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Navigation</div>
+        <ul class="space-y-2 text-xs">
+          <li><a href="index.html" class="hover:text-blue-700">Home</a></li>
+          <li><a href="dashboard.html" target="_blank" rel="noopener noreferrer" class="hover:text-blue-700 font-semibold text-blue-700">Live Dashboard (New Tab) ↗</a></li>
+          <li><a href="about.html" class="hover:text-blue-700">Engineering Features</a></li>
+          <li><a href="pricing.html" class="hover:text-blue-700">Pricing (₹ INR)</a></li>
+          <li><a href="contact.html" class="hover:text-blue-700">Contact Team Penguin</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Sensors &amp; Hardware</div>
+        <ul class="space-y-2 text-xs">
+          <li>DS18B20 Digital Temperature Probe</li>
+          <li>MPU6050 6-DoF Vibration Sensor</li>
+          <li>ACS712 Current Sensor</li>
+          <li>ESP32 Dual-Core FreeRTOS</li>
+          <li>Sensor Node Hardware BOM: &lt; ₹800 INR</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Compliance &amp; Legal</div>
+        <ul class="space-y-2 text-xs">
+          <li><a href="privacy.html" class="hover:text-blue-700">Privacy Policy</a></li>
+          <li><a href="terms.html" class="hover:text-blue-700">Terms of Service</a></li>
+          <li>ISO 10816 Mechanical Standard</li>
+          <li>Electricity Tariff Billing: ₹ INR / kWh</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Official Developer Credits (Strictly at the End of the Page) -->
+    <div class="border-t border-slate-200 pt-6">
+      <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="text-xs font-extrabold uppercase tracking-wider text-slate-900">
+            ALL CREDITS AND DEVELOPED BY TEAM PENGUIN
+          </div>
+          <div class="text-xs text-slate-700 mt-1.5 flex flex-wrap gap-x-6 gap-y-1">
+            <span><strong>1. Syed Siddiq Hussaini</strong> (160524747018)</span>
+            <span><strong>2. Syed Rafay Ali</strong> (160524747055)</span>
+            <span><strong>3. Mohammed Abdul Raheem</strong> (160524747053)</span>
+          </div>
+        </div>
+        <div class="text-xs text-slate-400 shrink-0">
+          &copy; 2026 IIOT • All Rights Reserved
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <script src="js/main.js"></script>
+</body>
+</html>
